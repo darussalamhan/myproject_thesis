@@ -14,7 +14,7 @@ class SubKriteriaController extends Controller
      */
     public function index()
     {
-        return view('sub_kriteria.index');
+        //
     }
 
     /**
@@ -32,7 +32,7 @@ class SubKriteriaController extends Controller
     {
         $this->validate($request, [
             'nama_pilihan' => 'required|string',
-            'bobot' => 'required|numberic'
+            'bobot' => 'required|numeric'
         ]);
 
         try {
@@ -41,6 +41,7 @@ class SubKriteriaController extends Controller
             $sub_kriteria->nama_pilihan = $request->nama_pilihan;
             $sub_kriteria->bobot = $request->bobot;
             $sub_kriteria->save();
+            return back()->with('msg', 'Berhasil menambahkan data');
         } catch (\Exception $e) {
             Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
             die("Gagal");
@@ -61,7 +62,6 @@ class SubKriteriaController extends Controller
     public function edit($id)
     {
         $data['sub_kriteria'] = SubKriteria::findOrFail($id);
-        $data['Kriteria'] = Kriteria::get();
 
         return view('sub_kriteria.edit', $data);
     }
@@ -74,20 +74,27 @@ class SubKriteriaController extends Controller
         try {
             $sub_kriteria = SubKriteria::findOrFail($id);
             $sub_kriteria->update([
-                'kriteria_id' => $request->kriteria_id,
                 'nama_pilihan' => $request->nama_pilihan,
                 'bobot' => $request->bobot
             ]);
-        } catch (\Throwable $th) {
-            //throw $th;
+            return back()->with('msg', 'Berhasil mengubah data');
+        } catch (\Exception $e) {
+            Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            die("Gagal");
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SubKriteria $subKriteria)
+    public function destroy($id)
     {
-        //
+        try {
+            $sub_kriteria = SubKriteria::findOrFail($id);
+            $sub_kriteria->delete();
+        } catch (\Exception $e) {
+            Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            die("Gagal");
+        }
     }
 }

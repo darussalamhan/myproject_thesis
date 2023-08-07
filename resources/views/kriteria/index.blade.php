@@ -117,6 +117,7 @@
                                                 <td>{{ $row->bobot }}</td>
                                                 <td>{{ $row->atribut }}</td>
                                                 <td>
+                                                    <a href="{{ route('kriteria.show', $row->id) }}" class="btn btn-sm btn-circle btn-info"><i class="fa fa-eye"></i></a>
                                                     <a href="{{ route('kriteria.edit', $row->id) }}" class="btn btn-sm btn-circle btn-warning"><i class="fa fa-edit"></i></a>
                                                     <a href="{{ route('kriteria.destroy', $row->id) }}" class="btn btn-sm btn-circle btn-danger delete"><i class="fa fa-trash"></i></a>
                                                 </td>

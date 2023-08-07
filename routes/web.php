@@ -34,11 +34,11 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/user', [UserController::class, 'index'])->name('user');
 
-Route::resource("kriteria", "KriteriaController")->middleware('auth');
+Route::resource("kriteria", "KriteriaController")->except(['create'])->middleware('auth');
 
-Route::get('/subkriteria', [SubKriteriaController::class, 'index'])->name('subkriteria');
+Route::resource("subkriteria", "SubKriteriaController")->except(['index', 'create', 'show'])->middleware('auth');
 
-Route::resource("pemohon", "PemohonController")->middleware('auth');
+Route::resource("pemohon", "PemohonController")->except(['create', 'show'])->middleware('auth');
 
 Route::get('/penilaian', [NilaiController::class, 'index'])->name('penilaian');
 

@@ -63,6 +63,7 @@ class KriteriaController extends Controller
     public function show($id)
     {
         $data['sub_kriteria'] = SubKriteria::where('kriteria_id', $id)->get();
+        $data['kriteria'] = Kriteria::findOrFail($id);
         return view('kriteria.show', $data);
     }
 
