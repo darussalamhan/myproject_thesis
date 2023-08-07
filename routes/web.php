@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\HasilController;
+use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\PemohonController;
+use App\Http\Controllers\SubKriteriaController;
+use App\Http\Controllers\UserController;
+use App\Models\Kriteria;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,17 +21,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Login route
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Logout route
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+});
 
-Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::put('/profile', 'ProfileController@update')->name('profile.update');
+Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+Route::get('/user', [UserController::class, 'index'])->name('user');
+
+Route::resource("kriteria", "KriteriaController")->middleware('auth');
+
+Route::get('/subkriteria', [SubKriteriaController::class, 'index'])->name('subkriteria');
+
+Route::resource("pemohon", "PemohonController")->middleware('auth');
+
+Route::get('/penilaian', [NilaiController::class, 'index'])->name('penilaian');
+
+Route::get('/hasil', [HasilController::class, 'index'])->name('hasil');
+
+Route::get('/laporan', [HasilController::class, 'index'])->name('laporan');

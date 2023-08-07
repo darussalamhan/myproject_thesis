@@ -20,6 +20,7 @@
         </div>
     @endif
 
+    <!-- Content Row -->
     <div class="row">
 
         <!-- Earnings (Monthly) Card Example -->
@@ -100,6 +101,7 @@
         </div>
     </div>
 
+    <!-- Content Row -->
     <div class="row">
 
         <!-- Content Column -->
