@@ -14,7 +14,7 @@ class SubKriteriaController extends Controller
      */
     public function index()
     {
-        //
+        return view('errors.custom_error');
     }
 
     /**
@@ -61,16 +61,22 @@ class SubKriteriaController extends Controller
      */
     public function edit($id)
     {
-        $data['sub_kriteria'] = SubKriteria::findOrFail($id);
+        $sub_kriteria = SubKriteria::findOrFail($id);
+        $kriteria = Kriteria::findOrFail($sub_kriteria->kriteria_id);
 
-        return view('sub_kriteria.edit', $data);
+        return view('sub_kriteria.edit', compact('sub_kriteria', 'kriteria'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {        
+    {
+        $this->validate($request, [
+            'nama_pilihan' => 'required|string',
+            'bobot' => 'required|numeric'
+        ]);        
         try {
             $sub_kriteria = SubKriteria::findOrFail($id);
             $sub_kriteria->update([

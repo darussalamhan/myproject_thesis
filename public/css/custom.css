@@ -1,0 +1,13 @@
+/* Position the icon on the right side of the input field */
+.password-input {
+    padding-right: 30px; /* Adjust as needed */
+}
+
+/* Style the icon to position it correctly */
+.field-icon {
+    position: absolute;
+    top: 57%;
+    right: 80px; /* Adjust as needed */
+    transform: translateY(-50%);
+    cursor: pointer;
+}

@@ -2,7 +2,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Sub Kriteria') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Sub Kriteria') }} : {{ $kriteria->nama_kriteria }}</h1>
 
     <div class="row">
 
@@ -28,6 +28,7 @@
                             <form action="{{ route('subkriteria.update', $sub_kriteria->id) }}" method="post">
                                 @csrf
                                 @method('put')
+                                <input type="hidden" name="kriteria_id" value="{{ $kriteria->id }}">
                                 <div class="form-group">
                                     <label for="nama">Nama Sub Kriteria</label>
                                     <input type="text" class="form-control @error('nama_pilihan') is-invalid @enderror" name="nama_pilihan" value="{{ $sub_kriteria->nama_pilihan }}">
@@ -49,7 +50,7 @@
                                     @enderror
                                 </div>
                                 <button class="btn btn-sm btn-primary">Simpan</button>
-                                <a href="{{ route('kriteria.index') }}" class="btn btn-sm btn-success">Kembali</a>
+                                <a href="{{ route('kriteria.show', $sub_kriteria->kriteria_id) }}" class="btn btn-sm btn-success">Kembali</a>
                             </form>
                         </div>
                     </div>

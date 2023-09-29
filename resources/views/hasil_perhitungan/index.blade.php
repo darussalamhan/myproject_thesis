@@ -2,70 +2,164 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('About') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Hasil Perhitungan') }}</h1>
 
-    <div class="row justify-content-center">
-
-        <div class="col-lg-8">
-
-            <div class="card shadow mb-4">
-
-                <div class="card-profile-image mt-4">
-                    <img src="{{ asset('img/favicon.png') }}" class="rounded-circle" alt="user-image">
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-lg-12 mb-1">
-                            <div class="text-center">
-                                <h5 class="font-weight-bold">Alejandro RH</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-1 text-center">
-                            <a href="https://facebook.com/aleckrh" target="_blank" class="btn btn-facebook btn-circle btn-lg"><i class="fab fa-facebook-f fa-fw"></i></a>
-                        </div>
-                        <div class="col-md-4 mb-1 text-center">
-                            <a href="https://github.com/aleckrh" target="_blank" class="btn btn-github btn-circle btn-lg"><i class="fab fa-github fa-fw"></i></a>
-                        </div>
-                        <div class="col-md-4 mb-1 text-center">
-                            <a href="https://twitter.com/aleckrh" target="_blank" class="btn btn-twitter btn-circle btn-lg"><i class="fab fa-twitter fa-fw"></i></a>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h5 class="font-weight-bold">Laravel SB Admin 2</h5>
-                            <p>SB Admin 2 for Laravel.</p>
-                            <p>Recommend to install this preset on a project that you are starting from scratch, otherwise your project's design might break.</p>
-                            <a href="https://github.com/aleckrh/laravel-sb-admin-2" target="_blank" class="btn btn-github">
-                                <i class="fab fa-github fa-fw"></i> Go to repository
-                            </a>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h5 class="font-weight-bold">Credits</h5>
-                            <p>Laravel SB Admin 2 uses some open-source third-party libraries/packages, many thanks to the web community.</p>
-                            <ul>
-                                <li><a href="https://laravel.com" target="_blank">Laravel</a> - Open source framework.</li>
-                                <li><a href="https://github.com/DevMarketer/LaravelEasyNav" target="_blank">LaravelEasyNav</a> - Making managing navigation in Laravel easy.</li>
-                                <li><a href="https://startbootstrap.com/themes/sb-admin-2" target="_blank">SB Admin 2</a> - Thanks to Start Bootstrap.</li>
-                            </ul>
-                        </div>
-                    </div>
-
+    <div class="card shadow mb-4">
+        <!-- Collapsable Card Perhitungan -->
+        <!-- Card Header - Accordion -->
+        <a href="#hasilhitung" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">Proses Perhitungan</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="hasilhitung">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nama Pemohon</th>
+                                @foreach ($kriteria as $key => $value)
+                                    <th>{{ $value->nama_kriteria }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($pemohon as $pem)
+                                <tr>
+                                    <td>{{ $pem->nama }}</td>
+                                    @foreach ($pem->nilai as $nilaiItem)
+                                        <td>{{ $nilaiItem->sub_kriteria->bobot }}</td>
+                                    @endforeach
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td>Tidak ada data</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
 
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="kriteria">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nama Kriteria</th>
+                                <th>Atribut</th>
+                                <th>Bobot</th>
+                                <th>Normalisasi Bobot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kriteria as $kriteriaItem)
+                                <tr>
+                                    <td>{{ $kriteriaItem->nama_kriteria }}</td>
+                                    <td>{{ $kriteriaItem->atribut }}</td>
+                                    <td>{{ $kriteriaItem->bobot }}</td>
+                                    <td>{{ number_format($weights[$kriteriaItem->id], 3) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <!-- Collapsable Card Normalisasi -->
+        <!-- Card Header - Accordion -->
+        <a href="#normalisasi" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">Normalisasi</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="normalisasi">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Alternatif / Pemohon</th>
+                                @foreach ($kriteria as $key => $value)
+                                    <th>{{ $value->kode_kriteria }} | {{ $value->nama_kriteria }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($normalizedScores as $pemohonName => $criteriaScores)
+                                <tr>
+                                    <td>{{ $pemohonName }}</td>
+                                    @foreach ($criteriaScores as $kriteriaId => $criteriaScore)
+                                        <td>
+                                            {{ number_format($criteriaScore, 3) }}
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <!-- Collapsable Card Perangkingan -->
+        <!-- Card Header - Accordion -->
+        <a href="#rank" class="d-block card-header py-3" data-toggle="collapse"
+            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+            <h6 class="m-0 font-weight-bold text-primary">Perangkingan</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="rank">
+            <div class="card-body">
+                @if (Session::has('msg'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Info!</strong> {{ Session::get('msg') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                <div class="table-responsive">
+                    <form action="{{ route('hasil.store') }}" method="post">
+                        @csrf
+                        <button class="btn btn-sm btn-primary float-right">Simpan ke Laporan</button>
+                        <br><br>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nama Pemohon</th>
+                                    <th>Nilai Vektor S</th>
+                                    <th>Nilai Vektor V</th>
+                                    <th>Ranking</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $no = 1; @endphp <!-- Initialize $no here -->
+                                @php $rankedPemohon = collect($normalizedScores)->sortByDesc(function ($value, $key) use ($vectorV) {
+                                    return $vectorV[$key];
+                                }); @endphp
+                                @foreach ($rankedPemohon as $pemohonName => $criteriaScores)
+                                    <tr>
+                                        <td>{{ $pemohonName }}</td>
+                                        <td>{{ number_format($vectorS[$pemohonName], 3) }}</td>
+                                        <td>{{ number_format($vectorV[$pemohonName], 3) }}</td>
+                                        <td>{{ $no++ }}</td>
+                                    </tr>                                
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </form>
+                </div>  
+            </div>              
         </div>
 
     </div>

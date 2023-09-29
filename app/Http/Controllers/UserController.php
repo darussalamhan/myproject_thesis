@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -12,8 +13,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        $users = User::orderBy('id', 'ASC')->get();
+        return view('users.index', compact('users'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -60,6 +63,17 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if ($user->is_admin) {
+            return response()->json(['success' => false, 'message' => 'Admin user cannot be deleted.']);
+        }
+
+        try {
+            $user->delete();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to delete user.']);
+        }
     }
+
 }

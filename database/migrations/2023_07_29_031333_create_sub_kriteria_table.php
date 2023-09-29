@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('sub_kriteria', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kriteria_id');
+            $table->foreignId('kriteria_id')
+            ->references('id')
+            ->on('kriteria')
+            ->onDelete('cascade');
             $table->text('nama_pilihan');
             $table->integer('bobot')->default(0);
             $table->timestamps();

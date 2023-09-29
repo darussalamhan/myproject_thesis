@@ -103,7 +103,9 @@
                                                 <td>{{ $row->alamat }}</td>
                                                 <td>
                                                     <a href="{{ route('pemohon.edit', $row->id) }}" class="btn btn-sm btn-circle btn-warning"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{ route('pemohon.destroy', $row->id) }}" class="btn btn-sm btn-circle btn-danger delete"><i class="fa fa-trash"></i></a>
+                                                    @if (auth()->user()->isAdmin())
+                                                        <a href="{{ route('pemohon.destroy', $row->id) }}" class="btn btn-sm btn-circle btn-danger delete"><i class="fa fa-trash"></i></a>                                                        
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

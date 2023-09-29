@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Kriteria;
+use App\Models\Pemohon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,9 +27,13 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::count();
+        $kriteria = Kriteria::count();
+        $pemohon = Pemohon::count();
 
         $widget = [
             'users' => $users,
+            'kriteria' => $kriteria,
+            'pemohon' => $pemohon,
             //...
         ];
 

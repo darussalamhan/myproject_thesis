@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        session()->flash('success', 'You are logged in!');
+        session()->flash('success', 'Anda berhasil masuk! Selamat datang.');
         return $this->redirectTo;
     }
 }

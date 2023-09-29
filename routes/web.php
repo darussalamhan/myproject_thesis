@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HasilController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\SubKriteriaController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Kriteria;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CustomAccessMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Login route
-Auth::routes();
+Auth::routes(['register' => false]);
 
 // Logout route
 Route::get('/logout', function () {
@@ -30,18 +32,23 @@ Route::get('/logout', function () {
     return redirect('/');
 });
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::group(['middleware' => [CustomAccessMiddleware::class]], function () {
+    // Define your restricted routes here
+    
+    Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+    
+    Route::resource("kriteria", "KriteriaController")->except(['create'])->middleware('admin');
+    
+    Route::resource("subkriteria", "SubKriteriaController")->except(['create', 'show'])->middleware('admin')->parameters(['subkriteria' => 'kriteria_id']); // Add this line
+    
+    Route::resource("pemohon", "PemohonController")->except(['create', 'show'])->middleware('auth');
+    
+    Route::resource('penilaian', 'NilaiController')->middleware('auth');
+    
+    Route::resource('hasil', 'HasilController')->middleware('auth');
+    
+    Route::get('laporan', 'LaporanController@index')->name('laporan.index')->middleware('auth');
+    Route::get('laporan/print', 'LaporanController@print')->name('laporan.print')->middleware('auth');
+});
 
-Route::get('/user', [UserController::class, 'index'])->name('user');
 
-Route::resource("kriteria", "KriteriaController")->except(['create'])->middleware('auth');
-
-Route::resource("subkriteria", "SubKriteriaController")->except(['index', 'create', 'show'])->middleware('auth');
-
-Route::resource("pemohon", "PemohonController")->except(['create', 'show'])->middleware('auth');
-
-Route::get('/penilaian', [NilaiController::class, 'index'])->name('penilaian');
-
-Route::get('/hasil', [HasilController::class, 'index'])->name('hasil');
-
-Route::get('/laporan', [HasilController::class, 'index'])->name('laporan');

@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('nilai', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kriteria_id');
+            $table->foreignId('subkriteria_id');
             $table->foreignId('pemohon_id');
-            $table->string('kode_alternatif', 160);
-            $table->text('nilai')->nullable();
             $table->timestamps();
         });
     }

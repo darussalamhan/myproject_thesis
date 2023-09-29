@@ -212,6 +212,8 @@ class Factory
             $times, $count,
             "An expected process ran {$count} times instead of {$times} times."
         );
+
+        return $this;
     }
 
     /**
@@ -275,7 +277,7 @@ class Factory
      * Start defining a series of piped processes.
      *
      * @param  callable|array  $callback
-     * @return \Illuminate\Process\Pipe
+     * @return \Illuminate\Contracts\Process\ProcessResult
      */
     public function pipe(callable|array $callback, ?callable $output = null)
     {

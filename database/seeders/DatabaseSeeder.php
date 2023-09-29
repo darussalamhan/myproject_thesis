@@ -23,6 +23,22 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'remember_token' => Str::random(60)
        ]);
+        User::factory()->create([
+            'name' => 'Admin',
+            'last_name' => 'Utama',
+            'email' => 'admin@gmail.com',
+            'password' => 12345678,
+            'is_admin' => true,
+            'remember_token' => Str::random(60)
+       ]);
+        User::factory()->create([
+            'name' => 'Kepala Desa',
+            'last_name' => 'User',
+            'email' => 'kepaladesa@gmail.com',
+            'password' => 12345678,
+            'is_admin' => false,
+            'remember_token' => Str::random(60)
+       ]);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

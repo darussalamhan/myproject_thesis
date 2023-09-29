@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('hasil', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 160);
-            $table->integer('no_kk');
-            $table->double('skor', 8, 2);
+            $table->foreignId('pemohon_id')->constrained('pemohon');
+            $table->double('hasil', 8, 3); // Change this to match your vector V format
             $table->integer('rangking');
             $table->timestamps();
         });

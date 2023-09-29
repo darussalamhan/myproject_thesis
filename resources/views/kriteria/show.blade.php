@@ -7,7 +7,7 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Sub Kriteria') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Sub Kriteria') }} : {{ $kriteria->nama_kriteria }}</h1>
 
     <div class="row">
 
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <hr>
-                <a href="{{ route('kriteria.index') }}" class="btn btn-sm btn-success">Kembali</a>                
+                <a href="{{ route('kriteria.index') }}" class="btn btn-sm btn-success">Kembali ke Kriteria</a>                
         </div>
 
         <div class="col-md-8">

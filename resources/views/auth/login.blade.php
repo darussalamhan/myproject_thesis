@@ -11,7 +11,7 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">{{ __('Login') }}</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">{{ __('Sistem Seleksi Penentuan Calon Penerima PKH') }}</h1>
                                 </div>
 
                                 @if ($errors->any())
@@ -32,38 +32,22 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" name="password" placeholder="{{ __('Password') }}" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="remember">{{ __('Remember Me') }}</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="{{ __('Password') }}" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text bg-transparent border-1" style="border-radius: 0 100rem 100rem 0;">
+                                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-
+                                    </div>                                                                                                            
+                                    
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-success btn-user btn-block">
+                                        <button type="submit" class="btn btn-success btn-user btn-block" id="login-button" enabled>
                                             {{ __('Login') }}
                                         </button>
                                     </div>
-
-                                    <hr>
                                 </form>
-
-                                @if (Route::has('password.request'))
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Password?') }}
-                                        </a>
-                                    </div>
-                                @endif
-
-                                @if (Route::has('register'))
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('register') }}">{{ __('Create an Account!') }}</a>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -72,4 +56,29 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $(".toggle-password").click(function () {
+            const passwordField = $($(this).attr("toggle"));
+            const icon = $(this);
+            const loginButton = $('#login-button'); // Select the login button
+
+            // Toggle password visibility
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                // Change icon to slashed eye
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+                // Disable the login button
+                loginButton.attr("disabled", true);
+            } else {
+                passwordField.attr("type", "password");
+                // Change icon to open eye
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+                // Enable the login button
+                loginButton.attr("disabled", false);
+            }
+        });
+    </script>
 @endsection

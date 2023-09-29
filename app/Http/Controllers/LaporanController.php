@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hasil;
+use App\Models\Pemohon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -12,38 +14,24 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('laporan.index');
-    }
+        // Retrieve data from the pemohon table
+        $pemohonData = Pemohon::select('id', 'nama', 'no_kk', 'alamat')->get();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // Retrieve data from the Hasil model
+        $hasilData = Hasil::with('pemohon.sub_kriteria')->orderBy('hasil', 'DESC')->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Hasil $hasil)
-    {
-        //
+        // Pass the data to the "laporan" view
+        return view('laporan.index', compact('pemohonData', 'hasilData'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Hasil $hasil)
+    public function print()
     {
-        //
-    }
+        // Retrieve data from the Hasil model
+        $hasilData = Hasil::with('pemohon')->orderBy('hasil', 'DESC')->get();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Hasil $hasil)
-    {
-        //
+        // Generate PDF
+        $pdf = Pdf::loadView('laporan.print', compact('hasilData'));
+
+        // Download PDF
+        return $pdf->download('laporan.pdf');
     }
 }

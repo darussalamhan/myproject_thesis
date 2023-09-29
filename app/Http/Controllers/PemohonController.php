@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemohon;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -39,9 +40,13 @@ class PemohonController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'no_kk' => 'required|numeric',
+            'no_kk' => [
+                'required',
+                'numeric',
+                'digits:16', // Ensure 'no_kk' has exactly 16 digits
+            ],
             'nama' => 'required|string',
-            'alamat' => 'required|string'
+            'alamat' => 'required|string',
         ]);
 
         try {
@@ -80,9 +85,13 @@ class PemohonController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'no_kk' => 'required|numeric',
+            'no_kk' => [
+                'required',
+                'numeric',
+                'digits:16', // Ensure 'no_kk' has exactly 16 digits
+            ],
             'nama' => 'required|string',
-            'alamat' => 'required|string'
+            'alamat' => 'required|string',
         ]);
 
         try {

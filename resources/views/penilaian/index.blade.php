@@ -2,72 +2,77 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('About') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Penilaian') }}</h1>
 
-    <div class="row justify-content-center">
-
-        <div class="col-lg-8">
-
-            <div class="card shadow mb-4">
-
-                <div class="card-profile-image mt-4">
-                    <img src="{{ asset('img/favicon.png') }}" class="rounded-circle" alt="user-image">
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-lg-12 mb-1">
-                            <div class="text-center">
-                                <h5 class="font-weight-bold">Alejandro RH</h5>
+        <div class="card shadow mb-4">
+                <!-- Collapsable Card Tambah Penilaian -->
+                    <!-- Card Header - Accordion -->
+                    <a href="#tambahnilai" class="d-block card-header py-3" data-toggle="collapse"
+                        role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-primary">Penilaian Pemohon</h6>
+                    </a>
+                    <!-- Card Content - Collapse -->
+                    <div class="collapse show" id="tambahnilai">
+                        <div class="card-body">
+                            @if (Session::has('msg'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>Info!</strong> {{ Session::get('msg') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                            <div class="table-responsive">
+                                <form action="{{ route('penilaian.store') }}" method="post">
+                                    @csrf
+                                    <button class="btn btn-sm btn-primary float-right">Simpan & Hitung</button>
+                                    <br><br>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama Pemohon</th>
+                                                @foreach ($kriteria as $key => $value)
+                                                    <th>{{ $value->kode_kriteria }} | {{ $value->nama_kriteria }}</th>
+                                                @endforeach
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($pemohon as $pem => $valt)
+                                                <tr>
+                                                    <td>{{ $valt->nama }}</td>
+                                                    @if (count($valt->nilai) > 0)
+                                                        @foreach ($kriteria as $key => $value)
+                                                        <td>
+                                                            <select name="pemohon_id[{{ $valt->id }}][]" class="form-control">
+                                                                @foreach ($value->sub_kriteria as $k_1 => $v_1)
+                                                                    <option value="{{ $v_1->id }}" {{ $v_1->id == $valt->nilai[$key]->subkriteria_id ? 'selected' : '' }}>{{ $v_1->nama_pilihan }}</option>
+                                                                @endforeach
+                                                            </select>                                                            
+                                                        </td>
+                                                        @endforeach                                                        
+                                                    @else
+                                                        @foreach ($kriteria as $key => $value)
+                                                            <td>
+                                                                <select name="pemohon_id[{{ $valt->id }}][]" class="form-control">
+                                                                    @foreach ($value->sub_kriteria as $k_1 => $v_1)
+                                                                        <option value="{{ $v_1->id }}">{{ $v_1->nama_pilihan }}</option>
+                                                                    @endforeach
+                                                                </select>                                                            
+                                                            </td>
+                                                        @endforeach
+                                                    @endif
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td>Tidak ada data</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </form>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-1 text-center">
-                            <a href="https://facebook.com/aleckrh" target="_blank" class="btn btn-facebook btn-circle btn-lg"><i class="fab fa-facebook-f fa-fw"></i></a>
-                        </div>
-                        <div class="col-md-4 mb-1 text-center">
-                            <a href="https://github.com/aleckrh" target="_blank" class="btn btn-github btn-circle btn-lg"><i class="fab fa-github fa-fw"></i></a>
-                        </div>
-                        <div class="col-md-4 mb-1 text-center">
-                            <a href="https://twitter.com/aleckrh" target="_blank" class="btn btn-twitter btn-circle btn-lg"><i class="fab fa-twitter fa-fw"></i></a>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h5 class="font-weight-bold">Laravel SB Admin 2</h5>
-                            <p>SB Admin 2 for Laravel.</p>
-                            <p>Recommend to install this preset on a project that you are starting from scratch, otherwise your project's design might break.</p>
-                            <a href="https://github.com/aleckrh/laravel-sb-admin-2" target="_blank" class="btn btn-github">
-                                <i class="fab fa-github fa-fw"></i> Go to repository
-                            </a>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h5 class="font-weight-bold">Credits</h5>
-                            <p>Laravel SB Admin 2 uses some open-source third-party libraries/packages, many thanks to the web community.</p>
-                            <ul>
-                                <li><a href="https://laravel.com" target="_blank">Laravel</a> - Open source framework.</li>
-                                <li><a href="https://github.com/DevMarketer/LaravelEasyNav" target="_blank">LaravelEasyNav</a> - Making managing navigation in Laravel easy.</li>
-                                <li><a href="https://startbootstrap.com/themes/sb-admin-2" target="_blank">SB Admin 2</a> - Thanks to Start Bootstrap.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
+                    </div>                
         </div>
-
-    </div>
 
 @endsection
