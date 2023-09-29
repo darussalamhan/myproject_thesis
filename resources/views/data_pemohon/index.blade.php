@@ -127,7 +127,11 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script>
         $(document).ready(function(){
-            $('#DataTable').DataTable();
+            $('#DataTable').DataTable({
+                "language": {
+                    "url": "{{ asset('vendor/datatables/id.json') }}"
+                }
+            });
 
             $('.delete').on('click', function(){
                 swal({
