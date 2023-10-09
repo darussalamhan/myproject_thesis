@@ -4,6 +4,63 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">{{ __('Hasil Perhitungan') }}</h1>
 
+    {{-- Style Optional --}}
+    <style>
+        .no-wrap {
+            width: 50%;
+        }
+
+        /* Add the sticky-cell CSS */
+        .sticky-cell {
+            position: sticky;
+            left: 0;
+            background-color: #fff; /* Set the background color as needed */
+            text-align: center;
+            align-content: center;
+        }
+
+        /* Add the max-two-words CSS class */
+        .max-two-words {
+            max-width: 150px; /* Set the maximum width for two words */
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: center;
+            align-content: center;
+        }
+
+        /* Add CSS for the scrollable container */
+        .table-container {
+            max-height: 450px; /* Set the maximum height for vertical scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-x: auto; /* Add if you want horizontal scrolling */
+        }
+
+        /* Make the table header sticky to the top */
+        .table thead.sticky-cell {
+            position: sticky;
+            top: 0; /* Stick it to the top */
+            background-color: #fff; /* Set the background color as needed */
+            z-index: 1; /* Ensure it's above other table cells */
+        }
+
+        /* Add a CSS class to the parent div of the button */
+        .button-container {
+            position: sticky;
+            top: 0; /* Stick it to the top */
+            height: 5px;
+            background-color: #fff; /* Set the background color as needed */
+            z-index: 2; /* Ensure it's above other elements */
+            margin-bottom: 1px; /* Add margin to create space between button and table */
+        }
+
+        /* Make the button stay fixed horizontally */
+        .button-container button {
+            position: sticky;
+            left: 0; /* Stick it to the left */
+        }
+    </style>
+
     <div class="card shadow mb-4">
         <!-- Collapsable Card Perhitungan -->
         <!-- Card Header - Accordion -->
@@ -14,20 +71,20 @@
         <!-- Card Content - Collapse -->
         <div class="collapse show" id="hasilhitung">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive table-container">
                     <table class="table table-bordered">
-                        <thead>
+                        <thead class="sticky-cell">
                             <tr>
-                                <th>Nama Pemohon</th>
+                                <th class="no-wrap sticky-cell">Nama Pemohon</th>
                                 @foreach ($kriteria as $key => $value)
-                                    <th>{{ $value->nama_kriteria }}</th>
+                                    <th class="no-wrap max-two-words">{{ $value->nama_kriteria }}</th>
                                 @endforeach
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($pemohon as $pem)
                                 <tr>
-                                    <td>{{ $pem->nama }}</td>
+                                    <td class="no-wrap sticky-cell max-two-words">{{ $pem->nama }}</td>
                                     @foreach ($pem->nilai as $nilaiItem)
                                         <td>{{ $nilaiItem->sub_kriteria->bobot }}</td>
                                     @endforeach
@@ -82,20 +139,20 @@
         <!-- Card Content - Collapse -->
         <div class="collapse show" id="normalisasi">
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive table-container">
                     <table class="table table-bordered">
-                        <thead>
+                        <thead class="sticky-cell">
                             <tr>
-                                <th>Alternatif / Pemohon</th>
+                                <th class="no-wrap sticky-cell">Alternatif / Pemohon</th>
                                 @foreach ($kriteria as $key => $value)
-                                    <th>{{ $value->kode_kriteria }} | {{ $value->nama_kriteria }}</th>
+                                    <th class="no-wrap max-two-words">{{ $value->kode_kriteria }} | {{ $value->nama_kriteria }}</th>
                                 @endforeach
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($normalizedScores as $pemohonName => $criteriaScores)
                                 <tr>
-                                    <td>{{ $pemohonName }}</td>
+                                    <td class="no-wrap sticky-cell max-two-words">{{ $pemohonName }}</td>
                                     @foreach ($criteriaScores as $kriteriaId => $criteriaScore)
                                         <td>
                                             {{ number_format($criteriaScore, 3) }}
