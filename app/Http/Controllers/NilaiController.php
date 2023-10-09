@@ -13,8 +13,8 @@ class NilaiController extends Controller
 {
     public function index()
     {
-        $pemohon = Pemohon::with('nilai.sub_kriteria')->get();        
-        $kriteria = Kriteria::with('sub_kriteria')->orderBy('nama_kriteria', 'ASC')->get();
+        $pemohon = Pemohon::with('nilai.sub_kriteria')->orderBy('nama', 'ASC')->get();        
+        $kriteria = Kriteria::with('sub_kriteria')->orderBy('id', 'ASC')->get();
         return view('penilaian.index', compact('pemohon', 'kriteria'));
     }
 

@@ -43,7 +43,7 @@ Route::group(['middleware' => [CustomAccessMiddleware::class]], function () {
     
     Route::resource("pemohon", "PemohonController")->except(['create', 'show'])->middleware('auth');
     
-    Route::resource('penilaian', 'NilaiController')->middleware('auth');
+    Route::resource('penilaian', 'NilaiController')->middleware('auth')->middleware('nonadmin');
     
     Route::resource('hasil', 'HasilController')->middleware('auth');
     

@@ -3,6 +3,20 @@
 @section('css')
     <!-- Custom styles for this page -->
   <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <style>
+        /* Define the maximum width for the "Nama Kriteria" column and truncate text with an ellipsis */
+        .nama-kriteria-column {
+            max-width: 200px; /* Adjust the width as needed */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Ensure that text in the "Aksi" column does not wrap */
+        .aksi-column {
+            white-space: nowrap;
+        }
+    </style>
 @endsection
 
 @section('main-content')
@@ -98,11 +112,11 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nama Kriteria</th>
+                                            <th class="nama-kriteria-column">Nama Kriteria</th>
                                             <th>Kode Kriteria</th>
                                             <th>Bobot</th>
                                             <th>Atribut</th>
-                                            <th>Aksi</th>
+                                            <th class="aksi-column">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -112,11 +126,11 @@
                                         @foreach ($kriteria as $row)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $row->nama_kriteria }}</td>
+                                                <td class="nama-kriteria-column">{{ $row->nama_kriteria }}</td>
                                                 <td>{{ $row->kode_kriteria }}</td>
                                                 <td>{{ $row->bobot }}</td>
                                                 <td>{{ $row->atribut }}</td>
-                                                <td>
+                                                <td class="aksi-column">
                                                     <a href="{{ route('kriteria.show', $row->id) }}" class="btn btn-sm btn-circle btn-info"><i class="fa fa-eye"></i></a>
                                                     <a href="{{ route('kriteria.edit', $row->id) }}" class="btn btn-sm btn-circle btn-warning"><i class="fa fa-edit"></i></a>
                                                     <a href="{{ route('kriteria.destroy', $row->id) }}" class="btn btn-sm btn-circle btn-danger delete"><i class="fa fa-trash"></i></a>

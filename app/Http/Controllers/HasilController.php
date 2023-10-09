@@ -20,7 +20,7 @@ class HasilController extends Controller
     public function index()
     {
         $pemohon = Pemohon::with('nilai.sub_kriteria')->get();
-        $kriteria = Kriteria::with('sub_kriteria')->orderBy('nama_kriteria', 'ASC')->get();
+        $kriteria = Kriteria::with('sub_kriteria')->orderBy('id', 'ASC')->get();
         $nilai = Nilai::with('sub_kriteria', 'pemohon')->get();
 
         if (count($nilai) == 0) {
