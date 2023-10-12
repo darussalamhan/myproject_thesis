@@ -7,7 +7,6 @@
         /* Define the maximum width for the "Nama Kriteria" column and truncate text with an ellipsis */
         .nama-kriteria-column {
             max-width: 200px; /* Adjust the width as needed */
-            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -116,6 +115,7 @@
                                             <th>Kode Kriteria</th>
                                             <th>Bobot</th>
                                             <th>Atribut</th>
+                                            <th>Lihat Sub Kriteria</th>
                                             <th class="aksi-column">Aksi</th>
                                         </tr>
                                     </thead>
@@ -130,8 +130,10 @@
                                                 <td>{{ $row->kode_kriteria }}</td>
                                                 <td>{{ $row->bobot }}</td>
                                                 <td>{{ $row->atribut }}</td>
-                                                <td class="aksi-column">
+                                                <td>
                                                     <a href="{{ route('kriteria.show', $row->id) }}" class="btn btn-sm btn-circle btn-info"><i class="fa fa-eye"></i></a>
+                                                </td>
+                                                <td class="aksi-column">
                                                     <a href="{{ route('kriteria.edit', $row->id) }}" class="btn btn-sm btn-circle btn-warning"><i class="fa fa-edit"></i></a>
                                                     <a href="{{ route('kriteria.destroy', $row->id) }}" class="btn btn-sm btn-circle btn-danger delete"><i class="fa fa-trash"></i></a>
                                                 </td>
