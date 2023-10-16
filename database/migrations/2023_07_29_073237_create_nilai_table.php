@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subkriteria_id');
             $table->foreignId('pemohon_id');
+            $table->year('tahun_nilai');
             $table->timestamps();
         });
     }

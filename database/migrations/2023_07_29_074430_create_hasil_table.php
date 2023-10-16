@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('pemohon_id')->constrained('pemohon');
             $table->double('hasil', 8, 3); // Change this to match your vector V format
             $table->integer('rangking');
+            $table->year('tahun_nilai');
             $table->timestamps();
         });
     }

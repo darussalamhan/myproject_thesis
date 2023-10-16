@@ -69,6 +69,16 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="alamat">Tahun Pengajuan</label>
+                                <input type="text" class="form-control @error('tahun_daftar') is-invalid @enderror" name="tahun_daftar">
+                        
+                                @error('tahun_daftar')
+                                    <div class="invalid-feedback" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <button class="btn btn-sm btn-primary">Simpan</button>
                         </form>
                     </div>
@@ -96,6 +106,7 @@
                                             <th>Nomor KK</th>
                                             <th>Nama</th>
                                             <th>Alamat</th>
+                                            <th>Tahun Pengajuan</th>
                                             @if (auth()->user()->isAdmin())
                                                 <th>Aksi</th>                                                
                                             @endif
@@ -111,6 +122,7 @@
                                                 <td>{{ $row->no_kk }}</td>
                                                 <td>{{ $row->nama }}</td>
                                                 <td>{{ $row->alamat }}</td>
+                                                <td>{{ $row->tahun_daftar }}</td>
                                             @if (auth()->user()->isAdmin())
                                                 <td class="aksi-column">
                                                     <a href="{{ route('pemohon.edit', $row->id) }}" class="btn btn-sm btn-circle btn-warning"><i class="fa fa-edit"></i></a>

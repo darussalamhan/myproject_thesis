@@ -11,7 +11,7 @@
                         Tidak ada data tersedia untuk laporan.
                     </div>
                 @else
-                    <a href="{{ route('laporan.print') }}" class="btn btn-primary {{ $hasilData->isEmpty() ? 'disabled' : '' }}">Cetak</a>
+                    <a href="{{ route('laporan.print') }}" class="btn btn-primary {{ $hasilData->isEmpty() ? 'disabled' : '' }}">Unduh</a>
                     <br><br>
                     <table class="table table-bordered">
                         <thead>

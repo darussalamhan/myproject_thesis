@@ -57,6 +57,16 @@
         }
     </style>
 
+    <!-- Year selection dropdown -->
+    <div class="form-group">
+        <label for="year">Pilih Tahun Pengajuan:</label>
+        <select class="form-control" id="year">
+            @foreach($availableYears as $year)
+                <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+            @endforeach
+        </select>
+    </div>
+
     <div class="card shadow mb-4">
         <!-- Collapsable Card Tambah Penilaian -->
         <!-- Card Header - Accordion -->
@@ -78,6 +88,8 @@
                 <!-- Add the scrollable container div -->
                 <form action="{{ route('penilaian.store') }}" method="post">
                     @csrf
+                    <!-- Hidden input field to store the selected year -->
+                    <input type="hidden" name="selected_year" value="{{ $selectedYear }}">
                     <!-- Add the button-container class to the parent div of the button -->
                     <div class="button-container">
                         <button class="btn btn-sm btn-primary float-left">Simpan & Hitung</button>
@@ -126,7 +138,7 @@
                                         </tr>
                                     @endforelse
                                 </tbody>
-                            </table>
+                            </table> 
                         </div>
                         <!-- Add this code below your table -->
                         <div class="d-flex justify-content-center"></div>
@@ -135,5 +147,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // JavaScript to handle year selection change event and update the page
+        document.getElementById('year').addEventListener('change', function() {
+            var selectedYear = this.value;
+            // Redirect to the same page with the selected year as a query parameter
+            window.location.href = '{{ route("penilaian.index") }}?year=' + selectedYear;
+        });
+    </script>
 
 @endsection

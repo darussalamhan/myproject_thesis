@@ -16,5 +16,9 @@ class Hasil extends Model
     {
         return $this->belongsTo(Pemohon::class, 'pemohon_id');
     }
+    public function nilai()
+    {
+        return $this->belongsTo(Nilai::class, 'tahun_nilai', 'tahun_nilai');
+    }
 }
 

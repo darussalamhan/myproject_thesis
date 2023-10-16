@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('no_kk');
             $table->string('nama', 160);
             $table->text('alamat');
+            $table->integer('tahun_daftar');
             $table->timestamps();
         });
     }

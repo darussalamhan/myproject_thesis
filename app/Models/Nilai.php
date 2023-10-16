@@ -22,4 +22,10 @@ class Nilai extends Model
     {
         return $this->belongsTo(Pemohon::class, 'pemohon_id');
     }
+
+    public function tahun_nilai()
+    {
+        return $this->hasOne(Hasil::class, 'pemohon_id');
+    }
+
 }

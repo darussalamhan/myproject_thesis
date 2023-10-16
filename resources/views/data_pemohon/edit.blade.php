@@ -58,6 +58,16 @@
                                         </div>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="alamat">Tahun Pengajuan</label>
+                                    <input type="text" class="form-control @error('tahun_daftar') is-invalid @enderror" name="tahun_daftar" value="{{ $pemohon->tahun_daftar }}">
+                            
+                                    @error('tahun_daftar')
+                                        <div class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
                                 <button class="btn btn-sm btn-primary">Simpan</button>
                                 <a href="{{ route('pemohon.index') }}" class="btn btn-sm btn-success">Kembali</a>
                             </form>

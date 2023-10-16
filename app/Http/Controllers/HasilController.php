@@ -19,7 +19,9 @@ class HasilController extends Controller
 
     public function index()
     {
-        $pemohon = Pemohon::with('nilai.sub_kriteria')->get();
+        $pemohon = Pemohon::has('nilai')->with(['nilai' => function ($query) {
+            $query->with('sub_kriteria', 'tahun_nilai');
+        }, 'hasil'])->get();        
         $kriteria = Kriteria::with('sub_kriteria')->orderBy('id', 'ASC')->get();
         $nilai = Nilai::with('sub_kriteria', 'pemohon')->get();
 
@@ -85,12 +87,14 @@ class HasilController extends Controller
         // Store $vectorV in the session
         session(['vectorV' => $vectorV]);
 
-        return view('hasil_perhitungan.index', compact('pemohon', 'kriteria', 'normalizedScores', 'vectorS', 'vectorV', 'weights'));
+        return view('hasil_perhitungan.index', compact('pemohon', 'kriteria', 'normalizedScores', 'vectorS', 'vectorV', 'weights', 'nilai'));
     }
 
     public function store(Request $request)
     {
         try {
+            $tahun_nilai = $request->input('pilih_tahun');
+
             DB::table('hasil')->truncate(); // Truncate the table before inserting new data
             
             // Retrieve $vectorV from the session
@@ -106,6 +110,7 @@ class HasilController extends Controller
                     'pemohon_id' => $pemohon->id,
                     'hasil' => $vectorVValue,
                     'rangking' => $rank,
+                    'tahun_nilai' => $tahun_nilai,
                 ]);
                 
                 $rank++;

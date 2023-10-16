@@ -188,6 +188,7 @@
                 <div class="table-responsive">
                     <form action="{{ route('hasil.store') }}" method="post">
                         @csrf
+                        <input type="hidden" name="pilih_tahun" value="{{ $nilai->first()->tahun_nilai }}">
                         <button class="btn btn-sm btn-primary float-right">Simpan ke Laporan</button>
                         <br><br>
                         <table class="table table-bordered">

@@ -17,6 +17,12 @@ class Pemohon extends Model
     {
         return $this->hasMany(Nilai::class, 'pemohon_id');
     }
+
+    public function hasil()
+    {
+        return $this->hasOne(Hasil::class, 'pemohon_id');
+    }
+
     public function sub_kriteria()
     {
         return $this->hasManyThrough(SubKriteria::class, Nilai::class, 'pemohon_id', 'id', 'id', 'subkriteria_id');

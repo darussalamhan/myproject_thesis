@@ -47,6 +47,7 @@ class PemohonController extends Controller
             ],
             'nama' => 'required|string',
             'alamat' => 'required|string',
+            'tahun_daftar' => 'required|numeric',
         ]);
 
         try {
@@ -54,6 +55,7 @@ class PemohonController extends Controller
             $pemohon->no_kk = $request->no_kk;
             $pemohon->nama = $request->nama;
             $pemohon->alamat = $request->alamat;
+            $pemohon->tahun_daftar = $request->tahun_daftar;
             $pemohon->save();
             return back()->with('msg', 'Berhasil menambahkan data');
         } catch (\Exception $e) {
@@ -92,6 +94,7 @@ class PemohonController extends Controller
             ],
             'nama' => 'required|string',
             'alamat' => 'required|string',
+            'tahun_daftar' => 'required|numeric',
         ]);
 
         try {
@@ -99,7 +102,8 @@ class PemohonController extends Controller
             $pemohon->update([
                 'no_kk' => $request->no_kk,
                 'nama' => $request->nama,
-                'alamat' => $request->alamat
+                'alamat' => $request->alamat,
+                'tahun_daftar' => $request->tahun_daftar,
             ]);
             return back()->with('msg', 'Berhasil mengubah data');
         } catch (\Exception $e) {
