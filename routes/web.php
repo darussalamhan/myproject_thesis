@@ -41,13 +41,15 @@ Route::group(['middleware' => [CustomAccessMiddleware::class]], function () {
     
     Route::resource("subkriteria", "SubKriteriaController")->except(['create', 'show'])->middleware('admin')->parameters(['subkriteria' => 'kriteria_id']); // Add this line
     
-    Route::resource("pemohon", "PemohonController")->except(['create', 'show'])->middleware('auth');
+    Route::resource("pemohon", "PemohonController")->except(['create'])->middleware('auth');
+    Route::get('pemohon/show', 'PemohonController@show')->name('pemohon.show')->middleware('auth');
     
     Route::resource('penilaian', 'NilaiController')->middleware('auth')->middleware('nonadmin');
     
-    Route::resource('hasil', 'HasilController')->middleware('auth');
+    Route::resource('hasil', 'HasilController')->middleware('auth')->middleware('nonadmin');
     
     Route::get('laporan', 'LaporanController@index')->name('laporan.index')->middleware('auth');
+    Route::delete('laporan', 'LaporanController@destroy')->name('laporan.destroy')->middleware('nonadmin');
     Route::get('laporan/print', 'LaporanController@print')->name('laporan.print')->middleware('auth');
 });
 

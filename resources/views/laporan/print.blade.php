@@ -49,10 +49,11 @@
     <div class="header">
         <h1>Laporan Hasil Perhitungan dan Peringkat</h1>
         <h1>Calon Penerima PKH di Desa Mentibar, Kec. Paloh</h1>
+        <h2>Tahun Pengajuan: {{ $tahunPengajuan }}</h2>
     </div>
 
     <div class="date-time">
-        <p>Tanggal dan Waktu Export: {{ now()->format('d F Y, H:i:s') }}</p>
+        <p>Tanggal dan Waktu Unduh Laporan: {{ now()->format('d F Y, H:i:s') }}</p>
     </div>
 
     <table>
@@ -62,7 +63,7 @@
                 <th>Nama Pemohon</th>
                 <th>No KK</th>
                 <th>Alamat</th>
-                <th>Nilai Vektor V</th>
+                <th>Poin Penilaian</th>
                 <th>Ranking</th>
             </tr>
         </thead>

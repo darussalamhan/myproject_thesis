@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hasil', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pemohon_id')->constrained('pemohon');
+            $table->foreignId('pemohon_id')->constrained('pemohon')->onDelete('cascade');
             $table->double('hasil', 8, 3); // Change this to match your vector V format
             $table->integer('rangking');
             $table->year('tahun_nilai');

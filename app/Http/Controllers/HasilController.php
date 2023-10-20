@@ -45,20 +45,28 @@ class HasilController extends Controller
         $normalizedScores = [];
 
         foreach ($nilai as $nilaiItem) {
-            $pemohonName = $nilaiItem->pemohon->nama;
+            $pemohonName = $nilaiItem->pemohon ? $nilaiItem->pemohon->nama : 'Pemohon tidak ada atau terhapus.';
+
             foreach ($kriteria as $kriteriaItem) {
-                if ($kriteriaItem->id == $nilaiItem->sub_kriteria->kriteria_id) {
-                    if ($kriteriaItem->atribut == 'benefit') {
-                        $normalizedScores[$pemohonName][$kriteriaItem->id] = pow(
-                            $nilaiItem->sub_kriteria->bobot,
-                            $weights[$kriteriaItem->id]
-                        );
-                    } elseif ($kriteriaItem->atribut == 'cost') {
-                        $normalizedScores[$pemohonName][$kriteriaItem->id] = pow(
-                            $nilaiItem->sub_kriteria->bobot,
-                            -$weights[$kriteriaItem->id]
-                        );
+                // Check if $nilaiItem->sub_kriteria is not null
+                if ($nilaiItem->sub_kriteria) {
+                    // Check if the criteria is available
+                    if ($kriteriaItem->id == $nilaiItem->sub_kriteria->kriteria_id) {
+                        if ($kriteriaItem->atribut == 'benefit') {
+                            $normalizedScores[$pemohonName][$kriteriaItem->id] = pow(
+                                $nilaiItem->sub_kriteria->bobot,
+                                $weights[$kriteriaItem->id]
+                            );
+                        } elseif ($kriteriaItem->atribut == 'cost') {
+                            $normalizedScores[$pemohonName][$kriteriaItem->id] = pow(
+                                $nilaiItem->sub_kriteria->bobot,
+                                -$weights[$kriteriaItem->id]
+                            );
+                        }
                     }
+                } else {
+                    // Handle the case where subkriteria is null or criteria is missing
+                    $normalizedScores[$pemohonName][$kriteriaItem->id] = 1;
                 }
             }
         }
@@ -94,8 +102,6 @@ class HasilController extends Controller
     {
         try {
             $tahun_nilai = $request->input('pilih_tahun');
-
-            DB::table('hasil')->truncate(); // Truncate the table before inserting new data
             
             // Retrieve $vectorV from the session
             $vectorV = session('vectorV');
@@ -105,21 +111,35 @@ class HasilController extends Controller
                 // Find the Pemohon ID by name
                 $pemohon = Pemohon::where('nama', $pemohonName)->first();
                 
-                // Calculate the vector V value for each pemohonName
-                Hasil::create([
-                    'pemohon_id' => $pemohon->id,
-                    'hasil' => $vectorVValue,
-                    'rangking' => $rank,
-                    'tahun_nilai' => $tahun_nilai,
-                ]);
+                // Check if a record with the same year and pemohon_id exists
+                $existingRecord = Hasil::where('tahun_nilai', $tahun_nilai)
+                    ->where('pemohon_id', $pemohon->id)
+                    ->first();
+                
+                if ($existingRecord) {
+                    // If the record exists, update it
+                    $existingRecord->update([
+                        'hasil' => $vectorVValue,
+                        'rangking' => $rank,
+                    ]);
+                } else {
+                    // If the record doesn't exist, create a new record
+                    Hasil::create([
+                        'pemohon_id' => $pemohon->id,
+                        'hasil' => $vectorVValue,
+                        'rangking' => $rank,
+                        'tahun_nilai' => $tahun_nilai,
+                    ]);
+                }
                 
                 $rank++;
             }
             
-            return back()->with('msg', 'Berhasil disimpan!');
+            return back()->with('msg', 'Data hasil perhitungan berhasil disimpan!');
         } catch (\Exception $e) {
             Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
             die("Gagal");
         }
     }
+
 }

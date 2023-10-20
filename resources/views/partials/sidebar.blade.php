@@ -38,7 +38,7 @@
 
     @if (auth()->user()->isAdmin())
         <!-- Nav Item - Data Pemohon -->
-        <li class="nav-item {{ Nav::isRoute('pemohon.index') || Nav::isRoute('pemohon.edit') ? 'active' : '' }}">
+        <li class="nav-item {{ Nav::isRoute('pemohon.index') || Nav::isRoute('pemohon.edit') || Nav::isRoute('pemohon.show') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('pemohon.index') }}">
                 <i class="fa-solid fa-people-roof"></i>
                 <span>{{ __('Kelola Data Pemohon') }}</span>
@@ -46,7 +46,7 @@
         </li>
     @else
         <!-- Nav Item - Data Pemohon -->
-        <li class="nav-item {{ Nav::isRoute('pemohon.index') || Nav::isRoute('pemohon.edit') ? 'active' : '' }}">
+        <li class="nav-item {{ Nav::isRoute('pemohon.index') || Nav::isRoute('pemohon.edit') || Nav::isRoute('pemohon.show') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('pemohon.index') }}">
                 <i class="fa-solid fa-people-roof"></i>
                 <span>{{ __('Data Pemohon') }}</span>
@@ -62,15 +62,14 @@
                 <span>{{ __('Penilaian') }}</span>
             </a>
         </li>
-    @endif  
-
-    <!-- Nav Item - Hasil Perhitungan -->
-    <li class="nav-item {{ Nav::isRoute('hasil.index') }}">
-        <a class="nav-link" href="{{ route('hasil.index') }}">
-            <i class="fa-solid fa-calculator"></i>
-            <span>{{ __('Hasil Perhitungan') }}</span>
-        </a>
-    </li>
+        <!-- Nav Item - Hasil Perhitungan -->
+        <li class="nav-item {{ Nav::isRoute('hasil.index') }}">
+            <a class="nav-link" href="{{ route('hasil.index') }}">
+                <i class="fa-solid fa-calculator"></i>
+                <span>{{ __('Hasil Perhitungan') }}</span>
+            </a>
+        </li>
+    @endif
 
     <!-- Nav Item - Laporan Hasil Akhir -->
     <li class="nav-item {{ Nav::isRoute('laporan.index') }}">

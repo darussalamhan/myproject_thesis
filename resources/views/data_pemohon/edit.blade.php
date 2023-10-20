@@ -49,10 +49,43 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="nik">NIK</label>
+                                    <input type="text" class="form-control @error('nik') is-invalid @enderror" name="nik" value="{{ $pemohon->nik }}">
+                            
+                                    @error('nik')
+                                        <div class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                                    <select name="jenis_kelamin" id="" class="form-control" required>
+                                        <option {{ $pemohon->jenis_kelamin == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                        <option {{ $pemohon->jenis_kelamin == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    </select>
+                            
+                                    @error('jenis_kelamin')
+                                        <div class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label for="alamat">Alamat</label>
                                     <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ $pemohon->alamat }}">
                             
                                     @error('alamat')
+                                        <div class="invalid-feedback" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_telp">Nomor Telepon</label>
+                                    <input type="text" class="form-control @error('no_telp') is-invalid @enderror" name="no_telp" value="{{ $pemohon->no_telp }}">
+                            
+                                    @error('no_telp')
                                         <div class="invalid-feedback" role="alert">
                                             {{ $message }}
                                         </div>

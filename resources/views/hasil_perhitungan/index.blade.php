@@ -61,6 +61,15 @@
         }
     </style>
 
+    @if (Session::has('msg'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Info!</strong> {{ Session::get('msg') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
     <div class="card shadow mb-4">
         <!-- Collapsable Card Perhitungan -->
         <!-- Card Header - Accordion -->
@@ -86,7 +95,7 @@
                                 <tr>
                                     <td class="no-wrap sticky-cell max-two-words">{{ $pem->nama }}</td>
                                     @foreach ($pem->nilai as $nilaiItem)
-                                        <td>{{ $nilaiItem->sub_kriteria->bobot }}</td>
+                                    <td>{{ $nilaiItem->sub_kriteria ? $nilaiItem->sub_kriteria->bobot ?? 'Data tidak tersedia atau terhapus' : 'Data tidak tersedia atau terhapus' }}</td>
                                     @endforeach
                                 </tr>
                             @empty
@@ -177,14 +186,6 @@
         <!-- Card Content - Collapse -->
         <div class="collapse show" id="rank">
             <div class="card-body">
-                @if (Session::has('msg'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Info!</strong> {{ Session::get('msg') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <div class="table-responsive">
                     <form action="{{ route('hasil.store') }}" method="post">
                         @csrf
@@ -209,7 +210,13 @@
                                     <tr>
                                         <td>{{ $pemohonName }}</td>
                                         <td>{{ number_format($vectorS[$pemohonName], 3) }}</td>
-                                        <td>{{ number_format($vectorV[$pemohonName], 3) }}</td>
+                                        <td>
+                                            @if (is_numeric($vectorV[$pemohonName]))
+                                                {{ number_format($vectorV[$pemohonName], 3) }}
+                                            @else
+                                                {{ $vectorV[$pemohonName] }}
+                                            @endif
+                                        </td>
                                         <td>{{ $no++ }}</td>
                                     </tr>                                
                                 @endforeach

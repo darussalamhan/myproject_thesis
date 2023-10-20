@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemohon;
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -42,11 +42,15 @@ class PemohonController extends Controller
         $this->validate($request, [
             'no_kk' => [
                 'required',
+                'unique:pemohon,no_kk',
                 'numeric',
                 'digits:16', // Ensure 'no_kk' has exactly 16 digits
             ],
             'nama' => 'required|string',
+            'nik'=> 'required|string|unique:pemohon,nik',
+            'jenis_kelamin'=> 'required|string',
             'alamat' => 'required|string',
+            'no_telp'=> 'required|string',
             'tahun_daftar' => 'required|numeric',
         ]);
 
@@ -54,7 +58,10 @@ class PemohonController extends Controller
             $pemohon = new Pemohon();
             $pemohon->no_kk = $request->no_kk;
             $pemohon->nama = $request->nama;
+            $pemohon->nik = $request->nik;
+            $pemohon->jenis_kelamin = $request->jenis_kelamin;
             $pemohon->alamat = $request->alamat;
+            $pemohon->no_telp = $request->no_telp;
             $pemohon->tahun_daftar = $request->tahun_daftar;
             $pemohon->save();
             return back()->with('msg', 'Berhasil menambahkan data');
@@ -67,9 +74,10 @@ class PemohonController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pemohon $pemohon)
+    public function show()
     {
-        //
+        $data['pemohon'] = Pemohon::orderBy('nama', 'ASC')->get();
+        return view('data_pemohon.show', $data);
     }
 
     /**
@@ -89,11 +97,18 @@ class PemohonController extends Controller
         $this->validate($request, [
             'no_kk' => [
                 'required',
+                Rule::unique('pemohon', 'no_kk')->ignore($id),
                 'numeric',
-                'digits:16', // Ensure 'no_kk' has exactly 16 digits
+                'digits:16',
             ],
             'nama' => 'required|string',
+            'nik' => [
+                'required',
+                Rule::unique('pemohon', 'nik')->ignore($id),
+            ],
+            'jenis_kelamin' => 'required|string',
             'alamat' => 'required|string',
+            'no_telp' => 'required|string',
             'tahun_daftar' => 'required|numeric',
         ]);
 
@@ -102,7 +117,10 @@ class PemohonController extends Controller
             $pemohon->update([
                 'no_kk' => $request->no_kk,
                 'nama' => $request->nama,
+                'nik' => $request->nik,
+                'jenis_kelamin' => $request->jenis_kelamin,
                 'alamat' => $request->alamat,
+                'no_telp' => $request->no_telp,
                 'tahun_daftar' => $request->tahun_daftar,
             ]);
             return back()->with('msg', 'Berhasil mengubah data');

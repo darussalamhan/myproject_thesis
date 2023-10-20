@@ -61,6 +61,7 @@
     <div class="form-group">
         <label for="year">Pilih Tahun Pengajuan:</label>
         <select class="form-control" id="year">
+            <option value="-">-</option> <!-- Add this empty option -->
             @foreach($availableYears as $year)
                 <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
             @endforeach

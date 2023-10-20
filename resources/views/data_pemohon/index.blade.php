@@ -60,10 +60,43 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="nik">NIK</label>
+                                <input type="text" class="form-control @error('nik') is-invalid @enderror" name="nik">
+                        
+                                @error('nik')
+                                    <div class="invalid-feedback" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="jenis_kelamin">Jenis Kelamin</label>
+                                <select name="jenis_kelamin" id="" class="form-control" required>
+                                    <option>Laki-laki</option>
+                                    <option>Perempuan</option>
+                                </select>
+                        
+                                @error('jenis_kelamin')
+                                    <div class="invalid-feedback" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="alamat">Alamat</label>
                                 <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat">
                         
                                 @error('alamat')
+                                    <div class="invalid-feedback" role="alert">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="no_telp">Nomor Telepon</label>
+                                <input type="text" class="form-control @error('no_telp') is-invalid @enderror" name="no_telp">
+                        
+                                @error('no_telp')
                                     <div class="invalid-feedback" role="alert">
                                         {{ $message }}
                                     </div>
@@ -98,16 +131,17 @@
                     <!-- Card Content - Collapse -->
                     <div class="collapse show" id="listpemohon">
                         <div class="card-body">
+                            <a href="{{ route('pemohon.show') }}" class="btn btn-primary">Lihat Detail Pemohon <i class="fa fa-eye"></i></a><br><br>
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover" id="DataTable">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nomor KK</th>
                                             <th>Nama</th>
                                             <th>Alamat</th>
+                                            <th>Jenis Kelamin</th>
                                             <th>Tahun Pengajuan</th>
-                                            @if (auth()->user()->isAdmin())
+                                            @if (auth()->user()->isAdmin())                                              
                                                 <th>Aksi</th>                                                
                                             @endif
                                         </tr>
@@ -119,9 +153,9 @@
                                         @foreach ($pemohon as $row)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $row->no_kk }}</td>
                                                 <td>{{ $row->nama }}</td>
                                                 <td>{{ $row->alamat }}</td>
+                                                <td>{{ $row->jenis_kelamin }}</td>
                                                 <td>{{ $row->tahun_daftar }}</td>
                                             @if (auth()->user()->isAdmin())
                                                 <td class="aksi-column">

@@ -6,6 +6,7 @@ use App\Models\Kriteria;
 use App\Models\SubKriteria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class KriteriaController extends Controller
 {
@@ -38,7 +39,7 @@ class KriteriaController extends Controller
     {
         $this->validate($request, [
             'nama_kriteria' => 'required|string',
-            'kode_kriteria' => 'required|string',
+            'kode_kriteria' => 'required|string|unique:kriteria,kode_kriteria',
             'bobot' => 'required|numeric',
             'atribut' => 'required|string'
         ]);
@@ -83,7 +84,10 @@ class KriteriaController extends Controller
     {
         $this->validate($request, [
             'nama_kriteria' => 'required|string',
-            'kode_kriteria' => 'required|string',
+            'kode_kriteria' => [
+                'required',
+                Rule::unique('kriteria', 'kode_kriteria')->ignore($id),
+            ],
             'bobot' => 'required|numeric',
             'atribut' => 'required|string'
         ]);

@@ -47,7 +47,7 @@ class NilaiController extends Controller
                     ]);
                 }
             }
-            return back()->with('msg', 'Berhasil disimpan!');
+            return back()->with('msg', 'Penilaian pemohon berhasil disimpan!');
         } catch (\Exception $e) {
             Log::emergency("File:" . $e->getFile(). "Line:" . $e->getLine(). "Message:" . $e->getMessage());
             die("Gagal");

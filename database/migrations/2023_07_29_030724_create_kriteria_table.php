@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kriteria', function (Blueprint $table) {
             $table->id();
             $table->string('nama_kriteria', 160);
-            $table->string('kode_kriteria', 160);
+            $table->string('kode_kriteria', 160)->unique();
             $table->float('bobot', 8, 2);
             $table->enum('atribut', ['cost', 'benefit'])->default('cost');
             $table->timestamps();
