@@ -7,7 +7,7 @@
         <div class="card-body">
             <form action="{{ route('laporan.index') }}" method="GET">
                 <div class="form-group">
-                    <label for="tahun_nilai">Pilih Tahun Penilaian:</label>
+                    <label for="tahun_nilai">Pilih Tahun Pengajuan:</label>
                     <select id="tahun_nilai" name="tahun_nilai" class="form-control" onchange="this.form.submit()">
                         <option value="">Semua Tahun</option>
                         @foreach ($distinctYears as $year)
