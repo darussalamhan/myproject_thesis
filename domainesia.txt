@@ -1,4 +1,0 @@
-db : sipcarip_myproject
-user: sipcarip_admin
-
-b(^I8bDtZ4}@
